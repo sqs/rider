@@ -12,8 +12,6 @@ require 'rider/crawler'
 
 $KCODE = 'u'
 
-include Rider::Debug
-
 module Rider
   VERSION = '0.1'
 end
