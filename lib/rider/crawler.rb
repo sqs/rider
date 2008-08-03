@@ -4,6 +4,7 @@ module Rider
     def initialize(mask, queue)
       @mask = mask
       @queue = queue
+      @seen_urls = []
       @www = WWW::Mechanize.new { |a| a.log = Logger.new("tmp/www.log") }
     end
     
@@ -16,7 +17,7 @@ module Rider
     def each_document
       while doc_data = next_document()
         follow_urls = yield(doc_data) || []
-        follow_urls.each { |url| @queue.push(url) }
+        follow_urls.each { |url| @queue.push(url) unless seen_url?(url) }
       end
     end
     
@@ -24,7 +25,9 @@ module Rider
     def next_document
       url = next_url()
       return nil if url.nil?
-      get(url)
+      doc_data = get(url)
+      saw_url(url)
+      return doc_data
     end
     
     # Gets the document at the specified +url+. Returns an Array [uri, metadata, contents]
@@ -52,8 +55,16 @@ module Rider
     # Retrieves the next URL in the queue that matches the +mask+.
     def next_url
       while url = @queue.pop
-        return url if match_mask?(url)
+        return url if match_mask?(url) and !seen_url?(url)
       end
+    end
+    
+    def seen_url?(url)
+      @seen_urls.include?(url)
+    end
+    
+    def saw_url(url)
+      @seen_urls << url
     end
   end
 end

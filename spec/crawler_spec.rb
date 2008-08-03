@@ -22,14 +22,21 @@ describe Rider::Crawler do
   
   describe "when getting the next valid URL" do
     before do
-      queue_urls = %w(http://example.com/invalid http://localhost/valid)
+      queue_urls = %w(http://example.com/invalid http://localhost/valid http://localhost/valid/unseen)
       queue_urls.each { |url| @queue.push(url) }
     end
     
     it "should return the next valid URL" do
       @crawler.next_url.should == "http://localhost/valid"
     end
+    
+    it "should return the next valid URL that hasn't been seen before" do
+      @crawler.saw_url('http://localhost/valid')
+      @crawler.next_url.should == 'http://localhost/valid/unseen'
+    end
   end
+  
+  describe "when getting URLs to follow"
   
   describe "when getting the next document" do
     
