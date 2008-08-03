@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'lib/rider'
+
+queue_name = ARGV[0]
+queue = Rider::Queue.new(queue_name)
+puts "Crawling URLs from #{queue.filename}"
+
+# will crawl all URLs
+crawler = Rider::Crawler.new(//, queue)
+
+crawler.each_document do |uri, metadata, contents|
+  puts "-"*60
+  puts "URL: #{uri.to_s}"
+  puts "Metadata: #{metadata.inspect}"
+  puts "Contents excerpt: #{contents[0..250]}"
+  puts
+end
+
+puts
+puts "Crawl finished"
