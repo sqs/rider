@@ -7,7 +7,7 @@ module Rider
     end
     
     def push(item)
-      debug("Q #{filename} PUSH #{item}")
+      Rider::Debug::debug("Q #{filename} PUSH #{item}")
       File.open(filename, "a") do |file|
         file.puts(item)
       end
@@ -15,7 +15,7 @@ module Rider
     
     def pop
       if empty?
-        debug("Q #{filename} POP nil")        
+        Rider::Debug::debug("Q #{filename} POP nil")        
         return nil
       end
       lines = File.readlines(filename)
@@ -23,7 +23,7 @@ module Rider
       File.open(filename, "w") do |file|
         file.write(lines.join)
       end
-      debug("Q #{filename} POP #{item}")
+      Rider::Debug::debug("Q #{filename} POP #{item}")
       return item
     end
     
