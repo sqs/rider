@@ -1,15 +1,13 @@
 module Rider
   class Queue
-    attr_reader :name, :filename
-    def initialize(name)
-      raise(ArgumentError, "queues must have a name") if !name or name.empty?
-      raise(ArgumentError, "queue names must be alphanumeric") if name.match(/[^a-z0-9]/)
-      @name = name
-      @filename = "tmp/#{name}.queue"
+    attr_reader :filename
+    def initialize(filename)
+      raise(ArgumentError, "queues must have a filename") if !filename or filename.empty?
+      @filename = filename
     end
     
     def push(item)
-      debug("Q #{name} PUSH #{item}")
+      debug("Q #{filename} PUSH #{item}")
       File.open(filename, "a") do |file|
         file.puts(item)
       end
@@ -17,7 +15,7 @@ module Rider
     
     def pop
       if empty?
-        debug("Q #{name} POP nil")        
+        debug("Q #{filename} POP nil")        
         return nil
       end
       lines = File.readlines(filename)
@@ -25,7 +23,7 @@ module Rider
       File.open(filename, "w") do |file|
         file.write(lines.join)
       end
-      debug("Q #{name} POP #{item}")
+      debug("Q #{filename} POP #{item}")
       return item
     end
     
