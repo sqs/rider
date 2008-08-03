@@ -17,8 +17,16 @@ module Rider
     def each_document
       while doc_data = next_document()
         follow_urls = yield(doc_data) || []
-        follow_urls.each { |url| @queue.push(url) unless seen_url?(url) }
+        add_follow_urls(follow_urls)
       end
+    end
+    
+    def add_follow_urls(urls)
+      urls.each { |url| @queue.push(url) if follow_url?(url) }
+    end
+    
+    def follow_url?(url)
+      match_mask?(url) and !seen_url?(url)
     end
     
     # Returns the document from the next valid URL in the queue.

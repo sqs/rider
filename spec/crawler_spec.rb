@@ -36,7 +36,18 @@ describe Rider::Crawler do
     end
   end
   
-  describe "when getting URLs to follow"
+  describe "when determining URLs to follow" do
+    it "should follow URLs that match the mask" do
+      @crawler.follow_url?('http://localhost/abc').should == true
+    end
+    
+    it "should not follow URLs that don't match the mask" do
+      @crawler.follow_url?('http://invalid.com').should == false
+    end
+    
+    it "should follow URLs that haven't been seen"
+    it "should not follow URLs that have been seen already"
+  end
   
   describe "when getting the next document" do
     
