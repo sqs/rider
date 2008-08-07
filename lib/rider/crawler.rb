@@ -29,13 +29,23 @@ module Rider
       match_mask?(url) and !seen_url?(url)
     end
     
-    # Returns the document from the next valid URL in the queue.
+    RETRYABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError]
+    # Returns the next retrievable document from the next valid URL in the queue.
     def next_document
-      url = next_url()
-      return nil if url.nil?
-      doc_data = get(url)
-      saw_url(url)
-      return doc_data
+      begin
+        url = next_url()
+        return nil if url.nil?
+        doc_data = get(url)
+        saw_url(url)
+        return doc_data
+      rescue Exception=>ex
+        if RETRYABLE_EXCEPTIONS.include?(ex.class)
+          puts "EXCEPTION: #{ex.inspect}, skipping..."
+          retry # go on to the next document
+        else
+          raise ex
+        end
+      end
     end
     
     # Gets the document at the specified +url+. Returns an Array [uri, metadata, contents]
