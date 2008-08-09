@@ -29,7 +29,8 @@ module Rider
       match_mask?(url) and !seen_url?(url)
     end
     
-    RETRYABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError, Errno::EHOSTUNREACH, SocketError]
+    RETRYABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError, Errno::EHOSTUNREACH, SocketError,
+                            Errno::ECONNREFUSED]
     # Returns the next retrievable document from the next valid URL in the queue.
     def next_document
       begin
@@ -67,7 +68,9 @@ module Rider
     end
     
     def get_http(uri)
-      [uri, {}, @www.get_file(uri)]
+      page = @www.get(uri)
+      meta = page.response
+      [uri, meta, page.body]
     end
     
     # Retrieves the next URL in the queue that matches the +mask+.

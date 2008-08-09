@@ -79,7 +79,7 @@ describe Rider::Crawler do
     
     describe "when getting http:// documents" do
       before do
-        @doc_uri = 'http://localhost/articles/a/l/g/Algebra.html'
+        @doc_uri = 'http://localhost/simplewikipedia/articles/a/l/g/Algebra.html'
       end
       
       it "should return an array whose first element is the uri" do
@@ -87,7 +87,8 @@ describe Rider::Crawler do
       end
       
       it "should return an array whose second element is blank metadata" do
-        @crawler.get_http(@doc_uri)[1].should == {}
+        meta = @crawler.get_http(@doc_uri)[1]
+        meta['Content-type'].should == 'text/html'
       end
       
       it "should return an array whose third element is the file contents" do
