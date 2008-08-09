@@ -29,7 +29,7 @@ module Rider
       match_mask?(url) and !seen_url?(url)
     end
     
-    RETRYABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError, Errno::EHOSTUNREACH]
+    RETRYABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError, Errno::EHOSTUNREACH, SocketError]
     # Returns the next retrievable document from the next valid URL in the queue.
     def next_document
       begin
