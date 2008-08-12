@@ -41,7 +41,7 @@ module Rider
         return doc_data
       rescue Exception=>ex
         if SKIPPABLE_EXCEPTIONS.include?(ex.class)
-          puts "EXCEPTION: #{ex.inspect}, skipping..."
+          Rider.log.debug("EXCEPTION: #{ex.inspect}, skipping...")
           retry # go on to the next document
         else
           raise ex
