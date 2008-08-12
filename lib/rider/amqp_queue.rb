@@ -1,22 +1,23 @@
 module Rider
-  class Queue
-    def initialize
+  class AMQPQueue < Rider::Queue
+    def initialize(name)
+      raise(ArgumentError) if !name or name.empty?
     end
     
     def push(item)
-      raise
+      
     end
     
     def pop
-      raise
+      
     end
     
     def clear
-      raise
+      
     end
     
     def empty?
-      raise
+      
     end
   end
 end

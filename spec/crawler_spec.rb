@@ -2,12 +2,8 @@ require 'spec/spec_helper'
 
 describe Rider::Crawler do
   before do
-    @queue = Rider::Queue.new('crawlerspec')
+    @queue = Rider::Queue.new
     @crawler = Rider::Crawler.new(/http:\/\/localhost/, @queue)
-  end
-  
-  after do
-    @queue.clear
   end
   
   describe "when checking URLs against mask" do
@@ -20,19 +16,18 @@ describe Rider::Crawler do
     end
   end
   
-  describe "when getting the next valid URL" do
+  describe "when checking URL validity" do
     before do
-      queue_urls = %w(http://example.com/invalid http://localhost/valid http://localhost/valid/unseen)
-      queue_urls.each { |url| @queue.push(url) }
+      @urls = %w(http://example.com/invalid http://localhost/valid http://localhost/valid/unseen)
     end
     
-    it "should return the next valid URL" do
-      @crawler.next_url.should == "http://localhost/valid"
+    it "should return URLs matching the mask" do
+      @urls.select { |url| @crawler.valid_url?(url) }.should == ["http://localhost/valid", "http://localhost/valid/unseen"]
     end
     
-    it "should return the next valid URL that hasn't been seen before" do
+    it "should return only unseen URLs" do
       @crawler.saw_url('http://localhost/valid')
-      @crawler.next_url.should == 'http://localhost/valid/unseen'
+      @urls.select { |url| @crawler.valid_url?(url) }.should == ['http://localhost/valid/unseen']
     end
   end
   

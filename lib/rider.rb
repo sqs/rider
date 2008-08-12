@@ -5,6 +5,8 @@ require 'logger'
 require 'mechanize'
 
 require 'rider/queue'
+require 'rider/file_queue'
+require 'rider/amqp_queue'
 require 'rider/crawler'
 
 $KCODE = 'u'
@@ -12,7 +14,7 @@ $KCODE = 'u'
 module Rider
   VERSION = '0.1'
   LOGGER = Logger.new(STDOUT)
-  LOGGER.level = Logger::INFO
+  LOGGER.level = Logger::DEBUG
   
   
   def log
