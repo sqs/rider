@@ -29,7 +29,7 @@ module Rider
       match_mask?(url) and !seen_url?(url)
     end
     
-    RETRYABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError, Errno::EHOSTUNREACH, SocketError,
+    SKIPPABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError, Errno::EHOSTUNREACH, SocketError,
                             Errno::ECONNREFUSED, Timeout::Error, Net::HTTPBadResponse]
     # Returns the next retrievable document from the next valid URL in the queue.
     def next_document
@@ -40,7 +40,7 @@ module Rider
         saw_url(url)
         return doc_data
       rescue Exception=>ex
-        if RETRYABLE_EXCEPTIONS.include?(ex.class)
+        if SKIPPABLE_EXCEPTIONS.include?(ex.class)
           puts "EXCEPTION: #{ex.inspect}, skipping..."
           retry # go on to the next document
         else
