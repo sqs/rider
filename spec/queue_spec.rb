@@ -1,8 +1,19 @@
 require 'spec/spec_helper'
 
-shared_examples_for "queue" do
+describe Rider::Queue do
+  
+  before do
+    @q = Rider::Queue.new('tmp/colors.q')
+    @q.clear
+  end
+  
   after do
     @q.clear
+  end
+  
+  it "must not have a blank or nil name" do
+    lambda { Rider::Queue.new(nil) }.should raise_error(ArgumentError) 
+    lambda { Rider::Queue.new('') }.should raise_error(ArgumentError) 
   end
 
   it "should be empty after clearing" do

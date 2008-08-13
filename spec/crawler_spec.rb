@@ -2,7 +2,7 @@ require 'spec/spec_helper'
 
 describe Rider::Crawler do
   before do
-    @queue = Rider::Queue.new
+    @queue = Rider::Queue.new('web')
     @crawler = Rider::Crawler.new(/http:\/\/localhost/, @queue)
   end
   
