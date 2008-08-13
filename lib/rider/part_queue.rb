@@ -21,7 +21,6 @@ module Rider
         return nil
       end
       host = @hosts[@current_host_index]
-      puts "\n\nHOSTS:#{@hosts.inspect}\nURLS:#{@urls_by_host.inspect}\nHOSTIDX:#{@current_host_index}\n"
       url = @urls_by_host[host].shift
       
       if @urls_by_host[host].empty?
