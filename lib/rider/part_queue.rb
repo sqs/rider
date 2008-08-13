@@ -15,7 +15,7 @@ module Rider
       return true
     end
     
-    def pop
+    def shift
       if empty?
         Rider.log.debug("Q #{name} POP nil")        
         return nil

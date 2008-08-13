@@ -14,9 +14,9 @@ module Rider
       return true
     end
     
-    def pop
+    def shift
       if empty?
-        Rider.log.debug("Q #{filename} POP nil")        
+        Rider.log.debug("Q #{filename} SHIFT nil")        
         return nil
       end
       lines = File.readlines(filename)
@@ -24,7 +24,7 @@ module Rider
       File.open(filename, "w") do |file|
         file.write(lines.join)
       end
-      Rider.log.debug("Q #{filename} POP #{item}")
+      Rider.log.debug("Q #{filename} SHIFT #{item}")
       return item
     end
     

@@ -8,14 +8,14 @@ describe Rider::HostPartitionedQueue do
     @q = Rider::HostPartitionedQueue.new('test')
   end
   
-  it "should alternate among hosts when popping" do
+  it "should alternate among hosts when shifting" do
     %w(http://example.com/path1 http://example.com/path2 http://example.net/ http://localhost/path).each { |u| @q.push(u) }
-    [@q.pop, @q.pop, @q.pop, @q.pop].should ==
+    [@q.shift, @q.shift, @q.shift, @q.shift].should ==
       %w(http://example.com/path1 http://example.net/ http://localhost/path http://example.com/path2)
   end
   
   it "should return the same host if only one distinct host exists" do
     %w(http://example.com/path1 http://example.com/path2 http://example.com/path3).each { |u| @q.push(u) }
-    [@q.pop, @q.pop, @q.pop].should == %w(http://example.com/path1 http://example.com/path2 http://example.com/path3)
+    [@q.shift, @q.shift, @q.shift].should == %w(http://example.com/path1 http://example.com/path2 http://example.com/path3)
   end
 end

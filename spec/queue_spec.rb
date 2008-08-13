@@ -11,14 +11,14 @@ shared_examples_for "queue" do
     @q.empty?.should == true
   end
     
-  it "should push then pop one item" do
+  it "should push then shift one item" do
     @q.push('blue')
-    @q.pop.should == 'blue'
+    @q.shift.should == 'blue'
   end
   
   describe "when empty" do
-    it "should return nil if popped" do
-      @q.pop.should == nil
+    it "should return nil if shifted" do
+      @q.shift.should == nil
     end
   end
   
@@ -35,9 +35,9 @@ describe Rider::Queue do
     @q.clear
   end
   
-  it "should push then pop multiple items" do
+  it "should push then shift multiple items" do
      %w(red green orange).each { |color| @q.push(color) }
      puts "POP x 3"
-     [@q.pop, @q.pop, @q.pop].should == %w(red green orange)
+     [@q.shift, @q.shift, @q.shift].should == %w(red green orange)
    end
 end

@@ -75,7 +75,7 @@ module Rider
     
     # Retrieves the next URL in the queue that matches the +mask+.
     def next_url
-      while url = @queue.pop
+      while url = @queue.shift
         return url if valid_url?(url)
       end
     end
