@@ -7,7 +7,7 @@ describe Rider::AMQPQueue do
     @q.clear
   end
   
-  #it_should_behave_like "queue"
+  it_should_behave_like "queue"
   
   it "must not have a blank or nil name" do
     lambda { Rider::AMQPQueue.new(nil) }.should raise_error(ArgumentError) 
