@@ -5,6 +5,7 @@ require 'logger'
 require 'mechanize'
 
 require 'rider/queue'
+require 'rider/part_queue'
 require 'rider/crawler'
 
 $KCODE = 'u'
