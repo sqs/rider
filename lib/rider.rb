@@ -3,6 +3,7 @@ $:.unshift File.dirname(__FILE__)
 require 'rubygems'
 require 'logger'
 require 'mechanize'
+require 'timeout'
 
 require 'rider/queue'
 require 'rider/part_queue'
