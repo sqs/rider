@@ -32,5 +32,9 @@ describe Rider::HostPartitionedQueue do
       @q.serialize
       Rider::HostPartitionedQueue.unserialize('test').should == @q
     end
+    
+    it "should return nil if asked to unserialize from a nonexistent file" do
+      Rider::HostPartitionedQueue.unserialize('nonexistent').should == nil
+    end
   end
 end

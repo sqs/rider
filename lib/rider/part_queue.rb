@@ -59,6 +59,8 @@ module Rider
     end
     
     def self.unserialize(name)
+      filename = "tmp/#{name}.q"
+      return nil unless File.exist?(filename)
       YAML.load_file("tmp/#{name}.q")
     end
     
