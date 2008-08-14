@@ -46,6 +46,22 @@ module Rider
       @hosts.empty?
     end
     
+    def ==(another_queue)
+      another_queue.instance_variable_get("@urls_by_host") == @urls_by_host &&
+      another_queue.instance_variable_get("@hosts") == @hosts &&
+      another_queue.instance_variable_get("@current_host_index") == @current_host_index
+    end
+    
+    def serialize
+      File.open(filename, 'w') do |file|
+        file.write(self.to_yaml)
+      end
+    end
+    
+    def self.unserialize(name)
+      YAML.load_file("tmp/#{name}.q")
+    end
+    
     private
     def get_host(url)
       URI.parse(url).host
@@ -58,6 +74,10 @@ module Rider
         # increment by one but go back to 0 if it exceeds the length of the array
         @current_host_index = (@current_host_index + 1) % @hosts.length
       end
+    end
+    
+    def filename
+      "tmp/#{name}.q"
     end
   end
 end

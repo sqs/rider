@@ -4,6 +4,7 @@ require 'rubygems'
 require 'logger'
 require 'mechanize'
 require 'timeout'
+require 'yaml'
 
 require 'rider/queue'
 require 'rider/part_queue'
