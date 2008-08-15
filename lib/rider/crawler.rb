@@ -30,7 +30,7 @@ module Rider
     end
     
     SKIPPABLE_EXCEPTIONS = [Errno::ETIMEDOUT, WWW::Mechanize::ResponseCodeError, Errno::EHOSTUNREACH, SocketError,
-                            Errno::ECONNREFUSED, Timeout::Error, Net::HTTPBadResponse]
+                            Errno::ECONNREFUSED, Timeout::Error, Net::HTTPBadResponse, Hpricot::ParseError]
     # Returns the next retrievable document from the next valid URL in the queue.
     def next_document
       begin
