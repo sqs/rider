@@ -52,7 +52,7 @@ module Rider
     # Gets the document at the specified +url+. Returns an Array [uri, metadata, contents]
     def get(url)
       uri = URI.parse(url)
-      Timeout::timeout(8) do
+      Timeout::timeout(8, Timeout::Error) do
         case uri.scheme
         when 'http'
           get_http(uri)
